@@ -11,22 +11,72 @@ private:
 
 public:
   // 1. Read values from stdin into a matrix
-  void readFromStdin();
+  void readFromStdin(){
+    for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j < SIZE; j++) {
+      cin >> data[i][j]; //adds all parts of the matrix
+      }
+    }
+  }
 
   // 2. Display a matrix
-  void display() const;
+  void display() const{
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {// intended to print the data and then provide spacing for readability
+        cout << data[i][j] << ' '; 
+      }
+      cout << endl;
+    }
+  }
 
   // 3. Add two matrices (operator overloading for +)
-  Matrix operator+(const Matrix& other) const;
+  Matrix operator+(const Matrix& other) const{
+    Matrix result;
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {
+        result.data[i][j] = data[i][j] + other.data[i][j]; //matrix addition
+      }
+    }
+    return result;
+  }
+
 
   // 4. Multiply two matrices (operator overloading for *)
-  Matrix operator*(const Matrix& other) const;
+  Matrix operator*(const Matrix& other) const{
+    Matrix result;
+    for (int i = 0; i < SIZE; i++) { //empty nxn matrix to add to
+      for (int j = 0; j < SIZE; j++) {
+        result.data[i][j] = 0;
+      }
+    }
+    for (int i = 0; i < SIZE; i++) {
+      for (int j = 0; j < SIZE; j++) {
+        for (int k = 0; k < SIZE; k++) {
+          result.data[i][j] += data[i][k] * other.data[k][j]; //matrix multiplication
+        }
+      }
+    }
+    return result;
+  }
 
   // 5. Compute the sum of matrix diagonal elements
-  int sumOfDiagonals() const;
+  int sumOfDiagonals() const{
+    int sum = 0;
+      for (int i = 0; i < SIZE; i++) {
+        sum += data[i][i]; //determines the primary diagonals
+        if (i != SIZE - 1 - i) { //keep program from counting the middle twice
+          sum += data[i][SIZE - 1 - i]; //performs on new diagonal
+        }
+      }
+    return sum;
+  }
 
   // 6. Swap matrix rows
-  void swapRows(int row1, int row2);
+  void swapRows(int row1, int row2){
+    for (int j = 0; j < SIZE; j++) {
+      swap(data[row1][j], data[row2][j]); //self explanatory
+    }
+  }
 };
 
 int main() {
